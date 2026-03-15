@@ -1,0 +1,12 @@
+name: File Management View
+core_version_requirement: ^9.4 || ^10
+description: Adds a custom view with file management actions that replaces the existing files overview.
+package: Media
+type: module
+dependencies:
+  - file_management:file_management
+  - drupal:views
+# Information added by Drupal.org packaging script on 2022-12-05
+version: '8.x-2.1+1-dev'
+project: 'file_management'
+datestamp: 1670255372

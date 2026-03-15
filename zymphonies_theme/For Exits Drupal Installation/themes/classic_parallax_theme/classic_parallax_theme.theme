@@ -1,0 +1,878 @@
+<?php
+
+/**
+ * @file
+ * Contains theme override functions and preprocess functions
+ */
+
+use Drupal\Core\Template\RenderWrapper;
+use Drupal\Core\Template\Attribute;
+use Drupal\search\Form\SearchBlockForm;
+use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\system\Form\ThemeSettingsForm;
+use Drupal\file\Entity\File;
+use Drupal\Core\Url;
+use Drupal\file\Plugin\Core\Entity\FileInterface;
+
+/**
+ * Implements hook_preprocess_page() for block templates.
+ */
+
+function classic_parallax_theme_preprocess_page(&$variables) {
+
+  // Add responsive class for footer.
+  if (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second']) && !empty($variables['page']['footer_third'])) {
+    $variables['footer_class'] = 'col-md-4';
+  }
+  elseif((!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_second'])) or (!empty($variables['page']['footer_first']) && !empty($variables['page']['footer_third'])) or (!empty($variables['page']['footer_third']) && !empty($variables['page']['footer_second']))) {
+    $variables['footer_class'] = 'col-md-6';
+  }
+  else {
+    $variables['footer_class'] = 'col-md-12';
+  }
+
+  // Add information about the number of sidebars.
+  if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['contentlayout'] = 'col-md-6';
+    $variables['sidebarfirst'] = 'col-md-3';
+    $variables['sidebarsecond'] = 'col-md-3';
+  }
+  elseif (!empty($variables['page']['sidebar_first'])) {
+    $variables['contentlayout'] = 'col-md-9 ';
+    $variables['sidebarfirst'] = 'col-md-3';
+  }
+  elseif (!empty($variables['page']['sidebar_second'])) {
+    $variables['contentlayout'] = 'col-md-9';
+    $variables['sidebarsecond'] = 'col-md-3';
+  }
+  else {
+    $variables['contentlayout'] = 'col-md-12';
+  }
+
+  // Social media global variable.
+  $variables['show_social_icon'] = theme_get_setting('show_social_icon');
+  $variables['facebook_url'] = theme_get_setting('facebook_url');
+  $variables['twitter_url'] = theme_get_setting('twitter_url');
+  $variables['linkedin_url'] = theme_get_setting('linkedin_url');
+  $variables['pinterest_url'] = theme_get_setting('pinterest_url');
+  $variables['rss_url'] = theme_get_setting('rss_url');
+  $variables['show_credit_link'] = theme_get_setting('show_credit_link');
+  
+  // Parallax menuid
+  $variables['parallax_teams_menuid'] = theme_get_setting('parallax_teams_menuid');
+  $variables['parallax_pricetable_menuid'] = theme_get_setting('parallax_pricetable_menuid');
+  // $variables['parallax_services_menuid'] = theme_get_setting('parallax_services_menuid');
+  // $variables['parallax_blocks_menuid'] = theme_get_setting('parallax_blocks_menuid');
+  // $variables['parallax_footer_menuid'] = theme_get_setting('parallax_footer_menuid');
+  
+  // To get the current URL
+  $current_url  = \Drupal::request()->getRequestUri();
+  $current_path = explode("/", $current_url);
+  $variables['current_path'] = $current_path[2];
+
+  // Assign variable for slider
+  if ($variables['is_front']) {
+    if (theme_get_setting('show_slideshow','classic_parallax_theme') == 1) {
+      $variables['show_slideshow'] = 1;
+      $variables['slider_content'] = classic_parallax_theme_get_slider_content();
+    }
+    if (theme_get_setting('show_parallax','classic_parallax_theme') == 1) {
+      $variables['show_parallax'] = 1;
+      $variables['parallax_content'] = classic_parallax_theme_get_parallax_content();
+    }
+    if (theme_get_setting('show_parallax_teams','classic_parallax_theme') == 1) {
+      $variables['show_parallax_teams'] = 1;
+      $variables['parallax_teams_content'] = classic_parallax_theme_get_parallax_teams_content();
+    }
+    if (theme_get_setting('show_parallax_services','classic_parallax_theme') == 1) {
+      $variables['show_parallax_services'] = 1;
+      $variables['parallax_services_content'] = classic_parallax_theme_get_parallax_services_content();
+    }
+    if (theme_get_setting('show_parallax_pricetable','classic_parallax_theme') == 1) {
+      $variables['show_parallax_pricetable'] = 1;
+      $variables['parallax_pricetable_content'] = classic_parallax_theme_get_parallax_pricetable_content();
+    }
+    if (theme_get_setting('show_parallax_blocks','classic_parallax_theme') == 1) {
+      $variables['show_parallax_blocks'] = 1;
+      $variables['parallax_blocks_content'] = classic_parallax_theme_get_parallax_blocks_content();
+    }
+    if (theme_get_setting('show_parallax_footer','classic_parallax_theme') == 1) {
+      $variables['show_parallax_footer'] = 1;
+      $variables['parallax_footer_content'] = classic_parallax_theme_get_parallax_footer_content();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function classic_parallax_theme_preprocess_menu(&$variables, $hook) {
+  if ($hook == 'menu__main') { // We're doing that for main menu.
+    // Get the current path.
+    $current_path = \Drupal::request()->getRequestUri();
+    $items = $variables['items'];
+    foreach ($items as $key => $item) {
+      // If path is current_path, set active to li.
+      if ($item['url']->toString() == $current_path) {
+      // Add active link.
+      $variables['items'][$key]['attributes']['class'] = 'active';
+      }
+    }
+  }
+}
+
+/**
+ * Slider
+ * Implements custom function for get slider content.
+ */
+function classic_parallax_theme_get_slider_content() {
+  $slider_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_slides'); $i++) {
+    $fid = theme_get_setting('slide_image_path'.$i,'classic_parallax_theme');
+    $description = theme_get_setting('slide_description_'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('slide_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $slider_content[$i] = '<li>
+      <img src="' . $path . '" alt="Slider Banner" />
+      <div class="slider-caption">
+        <h2 class="slider-title">' . theme_get_setting('slide_title_' . $i, 'classic_parallax_theme').'</h2>
+        <p class="slider-description">' . $description .'</p>
+        <a href=' . theme_get_setting('slide_url_' . $i, 'classic_parallax_theme') . ' class="more-link">Read more</a>
+      </div>
+    </li>';
+  }
+  return $slider_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get parallax content.
+ */
+function classic_parallax_theme_get_parallax_content() {
+  $parallax_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax'); $i++) {
+    $fid = theme_get_setting('parallax_image_path'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('parallax_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $parallax_content[$i] = '<li class="parallax-window parallax-slide parallax-fullwidth parallax-slide'. $i .'" id="'. theme_get_setting('parallax_menuid_' . $i, 'classic_parallax_theme') .'"data-image-src="' . $path . '">
+      <div class="parallax-details wow slideInLeft">
+        <p class="parallax-title">' . theme_get_setting('parallax_title_' . $i, 'classic_parallax_theme').'</p>
+        <p class="parallax-description">' . theme_get_setting('parallax_description_' . $i, 'classic_parallax_theme').'</p>
+        <a href=' . theme_get_setting('parallax_url_' . $i, 'classic_parallax_theme') . ' class="more-hyperlink"><i class="fas fa-chevron-right"></i></a>
+      </div>
+    </li>';
+  }
+  return $parallax_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get team content.
+ */
+function classic_parallax_theme_get_parallax_teams_content() {
+  $parallax_teams_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_teams'); $i++) {
+    $fid = theme_get_setting('parallax_teams_image_path'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('parallax_teams_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $parallax_teams_content[$i] = '<div class="col-sm parallax-team parallax-team wow slideInLeft'. $i .'"data-image-src="' . $path . '">
+      <div class="team-image"><img src="' . $path . '" alt="Parallax Team" /></div>
+        <div class="team-details">
+          <h3>'. theme_get_setting('parallax_teams_title_' . $i, 'classic_parallax_theme').'</h3>
+          <p class="team-designation">'. theme_get_setting('parallax_teams_designation_' . $i, 'classic_parallax_theme').'</p>
+          <div class="team-description">' . theme_get_setting('parallax_teams_description_' . $i, 'classic_parallax_theme').'</div>
+          <ul class="social-media-link">
+            <li><a href="'. theme_get_setting('parallax_teams_facebook_' . $i, 'classic_parallax_theme').'"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="'. theme_get_setting('parallax_teams_twitter_' . $i, 'classic_parallax_theme').'"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="'. theme_get_setting('parallax_teams_linkedin_' . $i, 'classic_parallax_theme').'"><i class="fab fa-linkedin-in"></i></a></li>
+          </ul>
+        </div>
+      </div>';
+  }
+  return $parallax_teams_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get parallax services content.
+ */
+function classic_parallax_theme_get_parallax_services_content() {
+  $parallax_services_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_services'); $i++) {
+    $fid = theme_get_setting('parallax_services_image_path'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('parallax_services_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $parallax_services_content[$i] = '<div class="col-sm parallax-service parallax-service'. $i .'"data-image-src="' . $path . '">
+      <div class="parallax-service-image"><img src="' . $path . '" alt="Parallax Services" /></div>
+      <div class="service-details wow slideInRight">
+        <p class="service-title">' . theme_get_setting('parallax_services_title_' . $i, 'classic_parallax_theme').'</p>
+        <p class="service-description">' . theme_get_setting('parallax_services_description_' . $i, 'classic_parallax_theme').'</p>
+        <a href=' . theme_get_setting('parallax_services_url_' . $i, 'classic_parallax_theme') . ' class="more-hyperlink"><i class="fas fa-chevron-right"></i></a>
+      </div>
+    </div>';
+  }
+  return $parallax_services_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get parallax pricetable content.
+ */
+function classic_parallax_theme_get_parallax_pricetable_content() {
+  $parallax_pricetable_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_pricetable'); $i++) {
+    $fid = theme_get_setting('parallax_pricetable_image_path'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('parallax_pricetable_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $parallax_pricetable_content[$i] = '<div class="col-sm parallax-pricetable parallax-pricetable wow slideInRight'. $i .'">
+      <div class="pricetable-details">
+        <h2 class="pricetable-title">' . theme_get_setting('parallax_pricetable_title_' . $i, 'classic_parallax_theme').'</h2>
+        <p class="pricetable-price">' . theme_get_setting('parallax_pricetable_price_' . $i, 'classic_parallax_theme').'</p>
+        <p class="pricetable-description">' . theme_get_setting('parallax_pricetable_description_' . $i, 'classic_parallax_theme').'</p>
+        <a href=' . theme_get_setting('parallax_pricetable_url_' . $i, 'classic_parallax_theme') . ' class="btn more-btn">Get it</a>
+      </div>
+    </div>';
+  }
+  return $parallax_pricetable_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get parallax blocks content.
+ */
+function classic_parallax_theme_get_parallax_blocks_content() {
+  $parallax_blocks_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_blocks'); $i++) {
+    $fid = theme_get_setting('parallax_blocks_image_path'.$i,'classic_parallax_theme');
+    if (!empty($fid)) {
+      $file = file_load($fid[0]);
+      $uri = $file->getFileUri();
+      $path = file_create_url($uri);
+    }
+    else {
+      $path = base_path() . drupal_get_path('theme', 'classic_parallax_theme') . theme_get_setting('parallax_blocks_image_path_' . $i, 'classic_parallax_theme');
+    }
+    $parallax_blocks_content[$i] = '<div class="col-sm parallax-block parallax-block'. $i .'"data-image-src="' . $path . '">
+    <div class="parallax-block-image">
+      <img src="' . $path . '" alt="Parallax Block" /></div>
+      <div class="parallax-block-details">
+        <p class="parallax-block-title wow bounceInUp">' . theme_get_setting('parallax_blocks_title_' . $i, 'classic_parallax_theme').'</p>
+        <p class="parallax-block-description wow bounceInUp">' . theme_get_setting('parallax_blocks_description_' . $i, 'classic_parallax_theme').'</p>
+        <a href=' . theme_get_setting('parallax_blocks_url_' . $i, 'classic_parallax_theme') . ' class="more-hyperlink"><i class="fas fa-chevron-right"></i></a>
+      </div>
+    </div>';
+  }
+  return $parallax_blocks_content;
+}
+
+/**
+ * Parallax
+ * Implements custom function for get parallax footer content.
+ */
+function classic_parallax_theme_get_parallax_footer_content() {
+  $parallax_footer_content = array();
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_footer'); $i++) {
+    $parallax_footer_content[$i] = '<div class="col-sm parallax-footer parallax-footer'. $i . '">
+      <div class="footer-details wow slideInUp">
+        <h2 class="footer-title">' . theme_get_setting('parallax_footer_title_' . $i, 'classic_parallax_theme').'</h2>
+        <div class="footer-description">' . theme_get_setting('parallax_footer_description_' . $i, 'classic_parallax_theme').'</div>
+      </div>
+    </div>';
+  }
+  return $parallax_footer_content;
+}
+
+/**
+ * Implements hook_form_system_theme_settings_alter().
+ */
+
+function classic_parallax_theme_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
+  $form['classic_parallax_theme_info'] = array(
+    '#markup' => '<h2><br/>Advanced theme settings</h2><div class="messages messages--warning">Clear cache after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>'
+  );
+
+  /*-------------------------------------------- 
+    Slider Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['slideshow'] = array(
+    '#type' => 'details',
+    '#title' => t('Slideshow'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['slideshow']['no_of_slides'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of slides'),
+    '#default_value' => theme_get_setting('no_of_slides'),
+    '#description'  => t("Enter the number of slides required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['slideshow']['show_slideshow'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show slideshow'),
+    '#default_value' => theme_get_setting('show_slideshow'),
+  );
+  $form['classic_parallax_theme_settings']['slideshow']['slide'] = array(
+    '#markup' => t('Change the banner image, title, description and link using below fieldset'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_slides'); $i++) {
+    $form['classic_parallax_theme_settings']['slideshow']['slide' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Slide '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['slideshow']['slide' . $i]['slide_image_path' . $i] = array(
+      '#type' => 'managed_file',
+      '#title' => t('Slide '.$i.' image'),
+      '#default_value' => theme_get_setting('slide_image_path'.$i,'classic_parallax_theme'),
+      '#upload_location' => 'public://',
+    );
+    $form['classic_parallax_theme_settings']['slideshow']['slide' . $i]['slide_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Slide '.$i.' title'),
+      '#default_value' => theme_get_setting('slide_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['slideshow']['slide' . $i]['slide_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Slide '.$i.' description'),
+      '#default_value' => theme_get_setting('slide_description_' . $i,'classic_parallax_theme'),
+    );    
+    $form['classic_parallax_theme_settings']['slideshow']['slide' . $i]['slide_url_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Slide '.$i.' URL'),
+      '#default_value' => theme_get_setting('slide_url_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('slide_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+      Parallax Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax'] = array(
+    '#type' => 'details',
+    '#title' => t('Parallax slides'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax']['no_of_parallax'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of Parallax slides required'),
+    '#default_value' => theme_get_setting('no_of_parallax'),
+    '#max' => 8,
+    '#description'  => t("Enter the number of parallax slide required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax']['show_parallax'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show Parallax'),
+    '#default_value' => theme_get_setting('show_parallax'),
+  );
+  $form['classic_parallax_theme_settings']['parallax']['parallaxslide'] = array(
+    '#markup' => t('Change the Parallax background image, title, description and link using below fieldset.'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Parallax '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i]['parallax_menuid_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Parallax '.$i.' block Id(for menu)'),
+      '#default_value' => theme_get_setting('parallax_menuid_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i]['parallax_image_path' . $i] = array(
+      '#type' => 'managed_file',
+      '#title' => t('Parallax '.$i.' background image'),
+      '#default_value' => theme_get_setting('parallax_image_path'.$i,'classic_parallax_theme'),
+      '#upload_location' => 'public://',
+    );
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i]['parallax_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Parallax '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i]['parallax_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Parallax '.$i.' description'),
+      // '#format' => 'full_html',
+      '#default_value' => theme_get_setting('parallax_description_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax']['parallaxslide' . $i]['parallax_url_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Parallax '.$i.' URL'),
+      '#default_value' => theme_get_setting('parallax_url_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('parallax_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+      Parallax Teams Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax_teams'] = array(
+    '#type' => 'details',
+    '#title' => t('Teams'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax_teams']['no_of_parallax_teams'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of team member required'),
+    '#default_value' => theme_get_setting('no_of_parallax_teams'),
+    '#max' => 6,
+    '#description'  => t("Enter the number of teams blocks required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax_teams']['parallax_teams_menuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Team block Id(for menu)'),
+    '#default_value' => theme_get_setting('parallax_teams_menuid'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_teams']['show_parallax_teams'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show Team'),
+    '#default_value' => theme_get_setting('show_parallax_teams'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams'] = array(
+    '#markup' => t('Change the team profile image, title, description and link using below fieldset'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_teams'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Team '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_image_path' . $i] = array(
+      '#type' => 'managed_file',
+      '#title' => t('Team '.$i.' profile image'),
+      '#default_value' => theme_get_setting('parallax_teams_image_path'.$i,'classic_parallax_theme'),
+      '#upload_location' => 'public://',
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Team '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_teams_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_designation_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Team '.$i.' designation'),
+      '#default_value' => theme_get_setting('parallax_teams_designation_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Team '.$i.' description'),
+      '#default_value' => theme_get_setting('parallax_teams_description_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_facebook_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Team '.$i.' facebook'),
+      '#default_value' => theme_get_setting('parallax_teams_facebook_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_twitter_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Team '.$i.' twitter'),
+      '#default_value' => theme_get_setting('parallax_teams_twitter_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_teams']['parallaxteams' . $i]['parallax_teams_linkedin_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Team '.$i.' linkedin'),
+      '#default_value' => theme_get_setting('parallax_teams_linkedin_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('parallax_teams_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+      Parallax Services Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax_services'] = array(
+    '#type' => 'details',
+    '#title' => t('Services'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax_services']['no_of_parallax_services'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of services required'),
+    '#default_value' => theme_get_setting('no_of_parallax_services'),
+    '#max' => 2,
+    '#description'  => t("Enter the number of parallax blocks required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax_services']['parallax_services_menuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Services block Id(for menu)'),
+    '#default_value' => theme_get_setting('parallax_services_menuid'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_services']['show_parallax_services'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show services'),
+    '#default_value' => theme_get_setting('show_parallax_services'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices'] = array(
+    '#markup' => t('Change the Parallax block background image, title, description and link using below fieldset.'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_services'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Service '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices' . $i]['parallax_services_image_path' . $i] = array(
+      '#type' => 'managed_file',
+      '#title' => t('Service '.$i.' image'),
+      '#default_value' => theme_get_setting('parallax_services_image_path'.$i,'classic_parallax_theme'),
+      '#upload_location' => 'public://',
+    );
+    $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices' . $i]['parallax_services_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Service '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_services_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices' . $i]['parallax_services_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Service '.$i.' description'),
+      '#default_value' => theme_get_setting('parallax_services_description_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_services']['parallaxservices' . $i]['parallax_services_url_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Service '.$i.' URL'),
+      '#default_value' => theme_get_setting('parallax_services_url_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('parallax_services_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+    Parallax Price Table Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax_pricetable'] = array(
+    '#type' => 'details',
+    '#title' => t('Price table'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax_pricetable']['no_of_parallax_pricetable'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of price table required'),
+    '#default_value' => theme_get_setting('no_of_parallax_pricetable'),
+    '#max' => 4,
+    '#description'  => t("Enter the number of Price table required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax_pricetable']['parallax_pricetable_menuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Price table block Id(for menu)'),
+    '#default_value' => theme_get_setting('parallax_pricetable_menuid'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_pricetable']['show_parallax_pricetable'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show Price table'),
+    '#default_value' => theme_get_setting('show_parallax_pricetable'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable'] = array(
+    '#markup' => t('Change the blocks background image, title, description and link using below fieldset'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_pricetable'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Price table '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable' . $i]['parallax_pricetable_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Price table '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_pricetable_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable' . $i]['parallax_pricetable_price_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Price table '.$i.' price'),
+      '#default_value' => theme_get_setting('parallax_pricetable_price_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable' . $i]['parallax_pricetable_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Price table '.$i.' description'),
+      // '#format' => 'full_html',
+      '#default_value' => theme_get_setting('parallax_pricetable_description_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_pricetable']['parallaxpricetable' . $i]['parallax_pricetable_url_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Price table '.$i.' URL'),
+      '#default_value' => theme_get_setting('parallax_pricetable_url_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('parallax_pricetable_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+    Parallax Blocks Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax_blocks'] = array(
+    '#type' => 'details',
+    '#title' => t('Blocks'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax_blocks']['no_of_parallax_blocks'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of blocks required'),
+    '#default_value' => theme_get_setting('no_of_parallax_blocks'),
+    '#max' => 3,
+    '#description'  => t("Enter the number of blocks required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax_blocks']['parallax_blocks_menuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Parallax block Id(for menu)'),
+    '#default_value' => theme_get_setting('parallax_blocks_menuid'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_blocks']['show_parallax_blocks'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show blocks'),
+    '#default_value' => theme_get_setting('show_parallax_blocks'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks'] = array(
+    '#markup' => t('Change the Parallax block background image, title, description and link using below fieldset.'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_blocks'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Block '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks' . $i]['parallax_blocks_image_path' . $i] = array(
+      '#type' => 'managed_file',
+      '#title' => t('Block '.$i.' background image'),
+      '#default_value' => theme_get_setting('parallax_blocks_image_path'.$i,'classic_parallax_theme'),
+      '#upload_location' => 'public://',
+    );
+    $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks' . $i]['parallax_blocks_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Block '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_blocks_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks' . $i]['parallax_blocks_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Block '.$i.' description'),
+      // '#format' => 'full_html',
+      '#default_value' => theme_get_setting('parallax_blocks_description_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_blocks']['parallaxblocks' . $i]['parallax_blocks_url_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Block '.$i.' URL'),
+      '#default_value' => theme_get_setting('parallax_blocks_url_' . $i,'classic_parallax_theme'),
+    );
+    // Make the uploaded images permanent.
+    $image = theme_get_setting('parallax_blocks_image_path'.$i,'classic_parallax_theme');
+    if(!empty($image)){
+      $file = File::load($image[0]);
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage_check = $file_usage->listUsage($file);
+      if (empty($file_usage_check)) {
+        $file_usage->add($file, 'classic_parallax_theme', 'theme', $image[0]);
+      }
+    }
+  }
+
+  /*-------------------------------------------- 
+    Parallax Footer Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['parallax_footer'] = array(
+    '#type' => 'details',
+    '#title' => t('Footer'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['parallax_footer']['no_of_parallax_footer'] = array(
+    '#type' => 'number',
+    '#title' => t('Number of footer block required'),
+    '#default_value' => theme_get_setting('no_of_parallax_footer'),
+    '#max' => 3,
+    '#description'  => t("Enter the number of parallax blocks required & Save configuration"),
+    '#markup' => '<div class="messages messages--warning">Clear caches after making any changes in theme settings. <a href="../../config/development/performance">Click here to clear cache</a></div>',
+  );
+  $form['classic_parallax_theme_settings']['parallax_footer']['parallax_footer_menuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Footer block Id(for menu)'),
+    '#default_value' => theme_get_setting('parallax_footer_menuid'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_footer']['show_parallax_footer'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show footer'),
+    '#default_value' => theme_get_setting('show_parallax_footer'),
+  );
+  $form['classic_parallax_theme_settings']['parallax_footer']['parallaxfooter'] = array(
+    '#markup' => t('Change the Parallax footer title, description and link using below fieldset.'),
+  );
+  for ($i = 1; $i <= theme_get_setting('no_of_parallax_footer'); $i++) {
+    $form['classic_parallax_theme_settings']['parallax_footer']['parallaxfooter' . $i] = array(
+      '#type' => 'details',
+      '#title' => t('Footer '.$i),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['classic_parallax_theme_settings']['parallax_footer']['parallaxfooter' . $i]['parallax_footer_title_' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Footer '.$i.' title'),
+      '#default_value' => theme_get_setting('parallax_footer_title_' . $i,'classic_parallax_theme'),
+    );
+    $form['classic_parallax_theme_settings']['parallax_footer']['parallaxfooter' . $i]['parallax_footer_description_' . $i] = array(
+      '#type' => 'textarea',
+      '#title' => t('Footer '.$i.' description'),
+      // '#format' => 'full_html',
+      '#default_value' => theme_get_setting('parallax_footer_description_' . $i,'classic_parallax_theme'),
+    );
+  }
+
+  /*-------------------------------------------- 
+      Social Media Configuration
+  --------------------------------------------*/
+
+  $form['classic_parallax_theme_settings']['social_icon'] = array(
+    '#type' => 'details',
+    '#title' => t('Social media link'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['show_social_icon'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show social media link'),
+    '#default_value' => theme_get_setting('show_social_icon'),
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['facebook_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facebook URL'),
+    '#default_value' => theme_get_setting('facebook_url'),
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['twitter_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Twitter URL'),
+    '#default_value' => theme_get_setting('twitter_url'),
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['linkedin_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('LinkedIn URL'),
+    '#default_value' => theme_get_setting('linkedin_url'),
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['pinterest_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Pinterest URL'),
+    '#default_value' => theme_get_setting('pinterest_url'),
+  );
+  $form['classic_parallax_theme_settings']['social_icon']['rss_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('RSS URL'),
+    '#default_value' => theme_get_setting('rss_url'),
+  );
+  $form['classic_parallax_theme_settings']['credit_link'] = array(
+    '#type' => 'details',
+    '#title' => t('Footer credit link'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['classic_parallax_theme_settings']['credit_link']['show_credit_link'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("Show/hide 'Designed by Zymphonies' credit text."),
+    '#default_value' => theme_get_setting('show_credit_link'),
+    '#description'   => t("Zymphonies highly recommend to display credit in footer."),
+  );
+}

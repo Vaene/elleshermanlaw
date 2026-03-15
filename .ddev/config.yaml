@@ -1,0 +1,10 @@
+name: elleshermanlaw
+type: drupal
+docroot: drupal
+php_version: "8.3"
+webserver_type: apache-fpm
+database:
+  type: mysql
+  version: "8.0"
+use_dns_when_possible: true
+xdebug_enabled: false

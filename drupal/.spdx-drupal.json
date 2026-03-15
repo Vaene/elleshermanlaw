@@ -1,0 +1,63 @@
+{
+    "SPDXID": "SPDXRef-drupal",
+    "spdxVersion": "SPDX-2.3",
+    "creationInfo": {
+        "created": "2023-02-21T03:15:14.295Z",
+        "creators": [
+            "Organization: VMware, Inc."
+        ]
+    },
+    "name": "SPDX document for Drupal 10.0.3",
+    "dataLicense": "CC0-1.0",
+    "documentDescribes": [
+        "SPDXRef-drupal"
+    ],
+    "documentNamespace": "drupal-10.0.3",
+    "packages": [
+        {
+            "SPDXID": "SPDXRef-drush",
+            "name": "Drush",
+            "versionInfo": "11.5.1",
+            "downloadLocation": "https://github.com/drush-ops/drush/archive/11.5.1.tar.gz",
+            "licenseConcluded": "GPL-2.0-only",
+            "licenseDeclared": "GPL-2.0-only",
+            "filesAnalyzed": false
+        },
+        {
+            "SPDXID": "SPDXRef-drupal-plugin-ctools",
+            "name": "Drupal Plugin Chaos Tools",
+            "versionInfo": "8.3.13",
+            "downloadLocation": "https://ftp-origin.drupal.org/files/projects/ctools-8.x-3.13.tar.gz",
+            "licenseConcluded": "GPL-2.0-only",
+            "licenseDeclared": "GPL-2.0-only",
+            "filesAnalyzed": false
+        },
+        {
+            "SPDXID": "SPDXRef-drupal-plugin-smtp",
+            "name": "Drupal Plugin SMTP Authentication Support",
+            "versionInfo": "8.1.2",
+            "downloadLocation": "https://ftp-origin.drupal.org/files/projects/smtp-8.x-1.2.tar.gz",
+            "licenseConcluded": "GPL-2.0-only",
+            "licenseDeclared": "GPL-2.0-only",
+            "filesAnalyzed": false
+        },
+        {
+            "SPDXID": "SPDXRef-phpmailer",
+            "name": "PHPMailer",
+            "versionInfo": "6.7.1",
+            "downloadLocation": "https://github.com/phpmailer/phpmailer/archive/v6.7.1.tar.gz",
+            "licenseConcluded": "LGPL-2.1-only",
+            "licenseDeclared": "LGPL-2.1-only",
+            "filesAnalyzed": false
+        },
+        {
+            "SPDXID": "SPDXRef-drupal",
+            "name": "Drupal",
+            "versionInfo": "10.0.3",
+            "downloadLocation": "https://ftp.drupal.org/files/projects/drupal-10.0.3.tar.gz",
+            "licenseConcluded": "GPL-2.0-only",
+            "licenseDeclared": "GPL-2.0-only",
+            "filesAnalyzed": false
+        }
+    ]
+}

@@ -1,0 +1,201 @@
+# Default settings are not located here. Theme settings in general are handled
+# strictly by this base theme via the @BootstrapSetting annotation discovery
+# process. This is to help sub-theme's inherit its settings properly and
+# determine when a setting should be saved to config as "overridden".
+#
+# @see \Drupal\bootstrap\Plugin\SettingBase
+# @see \Drupal\bootstrap\Plugin\SettingInterface
+# @see \Drupal\bootstrap\Plugin\SettingManager
+# @see \Drupal\bootstrap\Plugin\Form\SystemThemeSettings
+
+# Default features.
+
+features:
+   comment_user_picture: true
+   comment_user_verification: true
+   favicon: true
+   logo: true
+   name: true
+   node_user_picture: true
+   slogan: true
+facebook_url: 'https://www.facebook.com/zymphonies'
+twitter_url: 'https://twitter.com/zymphonies'
+linkedin_url: 'http://www.linkedin.com/company/zymphonies'
+pinterest_url: 'https://www.pinterest.com/zymphonies/'
+rss_url: 'rss.xml'
+
+# Toggle social media, credit link and slideshow
+show_social_icon: 1
+show_credit_link: 1
+
+#Slider default values
+show_slideshow: 1
+no_of_slides: 2
+
+#Slider default images & description
+slide_title_1: 'Drupal 8 Theme'
+slide_description_1: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry.' 
+slide_url_1: '#'
+slide_image_path_1: '/images/slider/slide_01.jpg'
+
+slide_title_2: 'Zymphonies Theme'
+slide_description_2: 'long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' 
+slide_url_2: '#'
+slide_image_path_2: '/images/slider/slide_02.jpg'
+
+#Parallax default values
+show_parallax: 1
+no_of_parallax: 6
+
+#Parallax default images & description
+parallax_title_1: 'About Company'
+parallax_menuid_1: 'about'
+parallax_description_1: '<h2>Know About our Wonderful Joinery in IT Industry</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_1: '#'
+parallax_image_path_1: '/images/parallax/parallax_01.jpg'
+
+parallax_title_2: 'Our Services'
+parallax_menuid_2: 'service'
+parallax_description_2: '<h2>Our Great Service in Web and Mobile Technologies</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_2: '#'
+parallax_image_path_2: '/images/parallax/parallax_02.jpg'
+
+parallax_title_3: 'Our Products'
+parallax_menuid_3: 'products'
+parallax_description_3: '<h2>Our Marketing and Social Software Products</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_3: '#'
+parallax_image_path_3: '/images/parallax/parallax_03.jpg'
+
+parallax_title_4: 'Most Product'
+parallax_menuid_4: 'recentproduct'
+parallax_description_4: '<h2>Most Rent Online Digital Marketing Product</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_4: '#'
+parallax_image_path_4: '/images/parallax/parallax_04.jpg'
+
+parallax_title_5: 'We Specialized'
+parallax_menuid_5: 'services'
+parallax_description_5: '<h2>We offer Web and Mobile Development Services</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_5: '#'
+parallax_image_path_5: '/images/parallax/parallax_05.jpg'
+
+parallax_title_6: 'We Expertise'
+parallax_menuid_6: 'experts'
+parallax_description_6: '<h2>We have Design and Development Experts in all Latest Technologies</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_url_6: '#'
+parallax_image_path_6: '/images/parallax/parallax_06.jpg'
+
+#Team default values
+show_parallax_teams: 1
+no_of_parallax_teams: 4
+parallax_teams_menuid: 'teams'
+
+#Team images & description
+parallax_teams_title_1: 'John Abraham'
+parallax_teams_designation_1: 'Software Developer'
+parallax_teams_description_1: '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>'
+parallax_teams_facebook_1: '#'
+parallax_teams_twitter_1: '#'
+parallax_teams_linkedin_1: '#'
+parallax_teams_image_path_1: '/images/team/team_01.jpg'
+
+parallax_teams_title_2: 'Muhammed Bilal'
+parallax_teams_designation_2: 'Marketing Manager'
+parallax_teams_description_2: '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>'
+parallax_teams_facebook_2: '#'
+parallax_teams_twitter_2: '#'
+parallax_teams_linkedin_2: '#'
+parallax_teams_image_path_2: '/images/team/team_02.jpg'
+
+parallax_teams_title_3: 'Robin Khaleel'
+parallax_teams_designation_3: 'Delivery Manager'
+parallax_teams_description_3: '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>'
+parallax_teams_facebook_3: '#'
+parallax_teams_twitter_3: '#'
+parallax_teams_linkedin_3: '#'
+parallax_teams_image_path_3: '/images/team/team_03.jpg'
+
+parallax_teams_title_4: 'Mariya Gal'
+parallax_teams_designation_4: 'Designer'
+parallax_teams_description_4: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_teams_facebook_4: '#'
+parallax_teams_twitter_4: '#'
+parallax_teams_linkedin_4: '#'
+parallax_teams_image_path_4: '/images/team/team_04.jpg'
+
+#Parallax blocks
+show_parallax_blocks: 1
+no_of_parallax_blocks: 3
+parallax_blocks_menuid: 'productList'
+
+#Parallax blocks images & description
+parallax_blocks_title_1: 'Androind App'
+parallax_blocks_description_1: '<h2>Know About our Wonderful Joinery in IT Industry</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_blocks_url_1: '#'
+parallax_blocks_image_path_1: '/images/blocks/block_01.jpg'
+
+parallax_blocks_title_2: 'iOS App'
+parallax_blocks_description_2: '<h2>Our Great Service in Web and Mobile Technologies</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_blocks_url_2: '#'
+parallax_blocks_image_path_2: '/images/blocks/block_02.jpg'
+
+parallax_blocks_title_3: 'Hybrid App'
+parallax_blocks_description_3: '<h2>Our Marketing and Social Software Products</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_blocks_url_3: '#'
+parallax_blocks_image_path_3: '/images/blocks/block_03.jpg'
+
+#Price table
+show_parallax_pricetable: 1
+no_of_parallax_pricetable: 4
+parallax_pricetable_menuid: 'priceTable'
+
+#Price table description
+parallax_pricetable_title_1: 'Basic'
+parallax_pricetable_price_1: '$25/Year'
+parallax_pricetable_description_1: '<ul><li>10 Database</li><li>50GB Storage</li><li>100 Email Id&#39;s</li><li>30 Users</li></ul>' 
+parallax_pricetable_url_1: '#'
+
+parallax_pricetable_title_2: 'Advanced'
+parallax_pricetable_price_2: '$50/Year'
+parallax_pricetable_description_2: '<ul><li>5 Database</li><li>25GB Storage</li><li>80 Email Id&#39;s</li><li>25 Users</li></ul>' 
+parallax_pricetable_url_2: '#'
+
+parallax_pricetable_title_3: 'Premium'
+parallax_pricetable_price_3: '$75/Year'
+parallax_pricetable_description_3: '<ul><li>4 Database</li><li>15GB Storage</li><li>70 Email Id&#39;s</li><li>15 Users</li></ul>' 
+parallax_pricetable_url_3: '#'
+
+parallax_pricetable_title_4: 'Standard'
+parallax_pricetable_price_4: '$125/Year'
+parallax_pricetable_description_4: '<ul><li>Unlimited Database</li><li>25GB Storage</li><li>Unlimited Email Id&#39;s</li><li>Unlimited Users</li></ul>' 
+parallax_pricetable_url_4: '#'
+
+#Parallax default values
+show_parallax_services: 1
+no_of_parallax_services: 2
+parallax_services_menuid: 'ourservices'
+
+#Parallax blocks images & description
+parallax_services_title_1: 'About Company'
+parallax_services_description_1: '<h2>Know About our Wonderful Joinery in IT Industry</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_services_url_1: '#'
+parallax_services_image_path_1: '/images/services/service_01.jpg'
+
+parallax_services_title_2: 'Our Services'
+parallax_services_description_2: '<h2>Our Great Service in Web and Mobile Technologies</h2><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since</p>' 
+parallax_services_url_2: '#'
+parallax_services_image_path_2: '/images/services/service_02.jpg'
+
+#Parallax footer values
+show_parallax_footer: 1
+no_of_parallax_footer: 3
+parallax_footer_menuid: 'footer'
+
+#Parallax footer images & description
+parallax_footer_title_1: 'About'
+parallax_footer_description_1: '<p>We are creative digital agency who provides end to end design and development service.</p>'
+
+parallax_footer_title_2: 'Email'
+parallax_footer_description_2: '<p>info@domain.com<br/>sales@domain.com</p>' 
+
+parallax_footer_title_3: 'Call'
+parallax_footer_description_3: '<p>+1-555-888-00000<br/>+1-555-888-99999</p>'

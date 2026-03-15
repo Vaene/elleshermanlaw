@@ -1,0 +1,35 @@
+name: Classic Parallax Theme
+type: theme
+description: 'Classic Parallax Theme is the one of the <a href="//www.zymphonies.com/drupal-premium-theme">Zymphonies premium theme.</a><br>Zymphonies - We are a team of passionate Drupal technologists with a strong experience in application design and development <a href="//www.zymphonies.com">more</a>'
+package: core
+core: 8.x
+
+#libraries
+libraries:
+  - classic_parallax_theme/bootstrap
+  - classic_parallax_theme/flexslider
+  - classic_parallax_theme/fontawesome
+  - classic_parallax_theme/smartmenus
+  - classic_parallax_theme/owl
+  - classic_parallax_theme/parallax
+  - classic_parallax_theme/wow
+  - classic_parallax_theme/global-components
+
+#Regions
+regions:
+
+  #Header
+  header: 'Header'
+  primary_menu: 'Primary menu'
+  search: 'Search'
+
+  #Global region
+  highlighted: 'Highlighted' 
+  page_title: 'Page title'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'
+  sidebar_first: 'Left sidebar'
+  sidebar_second: 'Right sidebar'
+
+  #Auto hidden
+  auto_hidden_block: 'Auto hidden blocks'

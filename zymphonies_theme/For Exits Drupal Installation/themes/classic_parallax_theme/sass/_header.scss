@@ -1,0 +1,153 @@
+/*Header*/
+
+.top-nav{
+	background: $linkColor;
+    padding: 15px;
+    font-size: 1.1em;
+    position: relative;
+    @include box-shadow(1px 1px 8px #b1b1b1);
+
+	*{
+		color: #fff;
+	}
+
+	.region-message,
+	.region-email{
+		display: inline-block;
+	}
+
+	.fa{
+		padding: 0 5px;
+	}
+
+	.block, p{
+		margin: 0;
+	}
+
+}
+
+.header{
+    padding: 7px 0;
+    text-align: left;
+}
+
+.main-header {
+
+  	nav{	  
+		border: 0;
+		margin: 0;
+		position: relative;
+		min-height: auto;
+		background: none;
+		@include border-radius(0);
+	}
+
+	.region{
+		position: relative;
+		padding: 25px 0;
+	}
+
+	.block{
+		margin: 0;
+	}
+
+	p, .block{
+		margin: 0;
+	}
+}
+
+
+/*Region Header*/
+
+.site-branding{
+	margin: 0;
+}
+
+.region-header{
+	float: left;
+	padding: 2px 0;
+}
+
+.region-header .brand{
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1.5em;
+
+	a{
+		color: #435a6b;
+		display: block;
+		text-transform: uppercase;
+		font-weight: 400;
+
+		img{
+			vertical-align: middle;
+		}
+	}
+
+	.site-branding__slogan{
+		font-size: .5em;
+		text-transform: uppercase;
+		vertical-align: top;
+	}
+}
+
+/*Search Form*/
+
+.search-block-form{
+	margin: 0 auto;
+}
+
+#search-block-form{
+	display: table;
+	width: 100%;
+
+	.form-item, 
+	.form-actions{
+		display: table-cell;
+		vertical-align: top;
+	}
+
+	.form-actions{
+		width: 40px;
+	}
+
+	input.form-submit{
+		background: image-url("search.png") no-repeat center;
+		font-size: 0;
+		width: 100%;
+		vertical-align: top;
+	}
+
+	input{
+		width: 100%;
+		padding: 10px;
+		height: 40px;
+		@include border-radius(0);
+	}
+}
+
+
+/*Breadcrumb*/
+
+.breadcrumb{
+	font-size: .85em;
+	padding: 2px 0;
+	margin: 0;
+	display: inline-block;
+
+	ul,ol{
+		padding: 0;
+		margin: 0;
+
+		li{
+			display: inline-block;
+			padding: 0 8px;
+
+			&:last-child{
+				.breadcrumb-divider{
+					display: none;
+				}
+			}
+		}
+	}
+}

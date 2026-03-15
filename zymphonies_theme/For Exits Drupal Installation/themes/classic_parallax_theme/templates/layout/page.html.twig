@@ -1,0 +1,299 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a single page.
+ *
+ * The doctype, html, head and body tags are not in this template. Instead they
+ * can be found in the html.html.twig template in this directory.
+ *
+ * Available variables:
+ *
+ * General utility variables:
+ * - base_path: The base URL path of the Drupal installation. Will usually be
+ *   "/" unless you have installed Drupal in a sub-directory.
+ * - is_front: A flag indicating if the current page is the front page.
+ * - logged_in: A flag indicating if the user is registered and signed in.
+ * - is_admin: A flag indicating if the user has permission to access
+ *   administration pages.
+ *
+ * Site identity:
+ * - front_page: The URL of the front page. Use this instead of base_path when
+ *   linking to the front page. This includes the language domain or prefix.
+ * - logo: The url of the logo image, as defined in theme settings.
+ * - site_name: The name of the site. This is empty when displaying the site
+ *   name has been disabled in the theme settings.
+ * - site_slogan: The slogan of the site. This is empty when displaying the site
+ *   slogan has been disabled in theme settings.
+ *
+ * Page content (in order of occurrence in the default page.html.twig):
+ * - messages: Status and error messages. Should be displayed prominently.
+ * - node: Fully loaded node, if there is an automatically-loaded node
+ *   associated with the page and the node ID is the second argument in the
+ *   page's path (e.g. node/12345 and node/12345/revisions, but not
+ *   comment/reply/12345).
+ *
+ * Regions:
+ * - page.header: Items for the header region.
+ * - page.navigation: Items for the Navigation region.
+ * - page.page_title: Used by Current page Title.
+ * - page.banner: Items for the banner region.
+ * - page.highlighted: Items for the highlighted top  region.
+ * - page.content_top: The main content top of the current page.
+ * - page.help: Item for the help region.
+ * - page.breadcrumb: Item for the Breadcrumb region.
+ * - page.content: The main content of the current page.
+ * - page.sidebar_first: Items for the first sidebar.
+ * - page.sidebar_second: Items for the second sidebar.
+ * - page.content_bottom: Items for the bottom in content region.
+ * - page.footer_top: Items for the footer top region.
+ * - page.footer_first: Items for the footer first region.
+ * - page.footer_second: Items for the footer Second region.
+ * - page.footer_third: Items for the footer third region.
+ * - page.footer_bottom: Items for the footer bottom region.
+ *
+ * @see template_preprocess_page()
+ * @see html.html.twig
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="header">
+  <div class="container">
+    <div class="">
+
+      <div class="navbar-header clearfix">
+        
+        {% if page.header %}
+          {{ page.header }}
+        {% endif %}
+
+        <div class="float-right toggle-links">
+          <button type="button" class="toggle-icons toggle-search"><i class="fas fa-search"></i></button>
+          <button type="button" class="toggle-icons navbar-toggle" data-toggle="collapse" data-target="#main-navigation"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <div class="search-static">
+          <p class="close-btn-wrap"><span class="close-btn"><i class="fas fa-times"></i></span></p>
+          {% if page.search %}
+            {{ page.search }}
+          {% endif %}
+        </div>
+
+      </div>
+
+      {% if page.primary_menu  or page.search%}
+        <div class="primary-menu">
+
+          <p class="close-btn-wrap"><span class="close-btn"><i class="fas fa-times"></i></span></p>
+
+          {{ page.primary_menu }}
+          
+          {% if show_social_icon %}
+            <p class="social-media">
+              {% if facebook_url %}
+                <a href="{{ facebook_url }}"  class="facebook" target="_blank" ><i class="fab fa-facebook-f"></i></a>
+              {% endif %}
+              {% if google_plus_url %}
+                <a href="{{ google_plus_url }}"  class="google-plus" target="_blank" ><i class="fab fa-google-plus-g"></i></a>
+              {% endif %}
+              {% if twitter_url %}
+                <a href="{{ twitter_url }}" class="twitter" target="_blank" ><i class="fab fa-twitter"></i></a>
+              {% endif %}
+              {% if linkedin_url %}
+                <a href="{{ linkedin_url }}" class="linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+              {% endif %}
+              {% if pinterest_url %}
+                <a href="{{ pinterest_url }}" class="pinterest" target="_blank" ><i class="fab fa-pinterest-p"></i></a>
+              {% endif %}
+              {% if rss_url %}
+                <a href="{{ rss_url }}" class="rss" target="_blank" ><i class="fa fa-rss"></i></a>
+              {% endif %}
+            </p>
+          {% endif %}
+
+        </div>
+      {% endif %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--Start: Highlighted -->
+
+{% if page.highlighted %}
+  <div class="highlighted">
+    <div class="container">
+      {{ page.highlighted }}
+    </div>
+  </div>
+{% endif %}
+
+<!-- End -->
+
+<ul class="parallax-slides">
+
+  {% if is_front and show_slideshow %}
+    <li class="parallax-window parallax-slide">
+      <div class="flexslider wow bounceInUp-">
+        <ul class="slides">
+          {% for slider_contents in slider_content %}
+            {{ slider_contents | raw }}
+          {% endfor %}
+        </ul>
+      </div>
+    </li>
+  {% endif %}
+
+  {% for parallax_contents in parallax_content %}
+    {{ parallax_contents | raw }}
+  {% endfor %}
+
+  {% if is_front and show_parallax_teams %}
+    <li class="parallax-window parallax-teams" id= {{parallax_teams_menuid}}>
+      <div class="container">
+        <div class="row">
+          {% for parallax_teams_contents in parallax_teams_content %}
+            {{ parallax_teams_contents | raw }}
+          {% endfor %}
+        </div>
+      </div>
+    </li>
+  {% endif %}
+
+  {% if is_front and show_parallax_services %}
+    <li class="parallax-window parallax-services" id= {{parallax_services_menuid}}>
+      <div class="row">
+        {% for parallax_services_contents in parallax_services_content %}
+          {{ parallax_services_contents | raw }}
+        {% endfor %}
+      </div>
+    </li>
+  {% endif %}
+
+  {% if is_front and show_parallax_pricetable %}
+    <li class="parallax-window parallax-pricetables" id= {{parallax_pricetable_menuid}}>
+      <div class="container">
+        <div class="row">
+          {% for parallax_pricetable_contents in parallax_pricetable_content %}
+            {{ parallax_pricetable_contents | raw }}
+          {% endfor %}
+        </div>
+      </div>
+    </li>
+  {% endif %}
+
+  {% if is_front and show_parallax_blocks %}
+    <li class="parallax-window parallax-blocks" id= {{parallax_blocks_menuid}}>
+      <div class="row">
+        {% for parallax_blocks_contents in parallax_blocks_content %}
+          {{ parallax_blocks_contents | raw }}
+        {% endfor %}
+      </div>
+    </li>
+  {% endif %}
+
+  {% if is_front and show_parallax_footer %}
+    <li class="parallax-window- parallax-footer-wrap" id= {{parallax_footer_menuid}}>
+      <div class="container">
+        <div class="row">
+          {% for parallax_footer_contents in parallax_footer_content %}
+            {{ parallax_footer_contents | raw }}
+          {% endfor %}
+        </div>
+      </div>
+    </li>
+  {% endif %}
+
+</ul>
+
+<!--Start: Title -->
+
+{%  if page.page_title and not is_front %}
+  <div id="page-title">
+    <div id="page-title-inner">
+      <div class="container">
+        {{ page.page_title }}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<!-- End -->
+
+{% if not is_front %}
+
+  <div class="main-content">
+    <div class="container">
+      <div class="">
+
+        <!--Start: Breadcrumb -->
+        <div class="row">
+          <div class="col-md-12">{{ page.breadcrumb }}</div>
+        </div>
+        <!-- End -->
+
+        <div class="row layout">
+
+          <!--- Start: Left sideBar -->
+          {% if page.sidebar_first %}
+            <div class={{sidebarfirst}}>
+              <div class="sidebar">
+                {{ page.sidebar_first }}
+              </div>
+            </div>
+          {% endif %}
+          <!-- End -->
+
+          <!--- Start content -->
+          {% if page.content %}
+            <div class={{contentlayout}}>
+              <div class="content_layout">
+                {{ page.content }}
+              </div>              
+            </div>
+          {% endif %}
+          <!-- End -->
+
+          <!-- Start: Right sideBar -->
+          {% if page.sidebar_second %}
+            <div class={{sidebarsecond}}>
+              <div class="sidebar">
+                {{ page.sidebar_second }}
+              </div>
+            </div>
+          {% endif %}
+          <!-- End -->
+          
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+<!-- End -->
+
+<!-- Start: Copyright -->
+
+<div class="copyright">
+    <div class="container">
+
+      <span>Copyright © {{ "now"|date("Y") }}. All rights reserved.</span>
+      
+      {% if show_credit_link %}
+        <span class="credit-link">Designed By <a href="http://www.zymphonies.com" target="_blank">Zymphonies</a></span>
+      {% endif %}
+
+  </div>
+</div>
+
+<!-- End -->
+
+
+
+
+

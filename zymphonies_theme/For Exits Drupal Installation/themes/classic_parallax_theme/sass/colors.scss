@@ -1,0 +1,257 @@
+ /* ---------- Color Module Styles ----------- */
+
+ body {
+  color: #0f0d0d;
+  background: #f5f0f0;
+}
+
+.header {
+  background: #f9f9f9;
+}
+
+.region-header .brand a{
+  color: #171515;
+}
+
+#search-block-form input.form-submit{
+  background-color: #ff0505;
+}
+
+a{
+  color: #ff1010;
+}
+
+a:hover {
+  color: #e00d0d;
+}
+
+.btn, .node-readmore a,
+.flexslider .more-link, 
+input[type="submit"]{
+  background: #ff0505;
+  color: #fffffc;
+  border: 3px solid #ff0505;
+
+  &:hover{
+    color: #ff0505;
+    background: #fffffc;
+  }
+}
+
+.flexslider .slider-caption{
+  color: #fffffd;
+}
+
+.flexslider .slider-title{
+  color: #fffffe;
+}
+
+.parallax-slides {
+
+  .parallax-slide .parallax-details{
+    background: #141414;
+    color: #a5a5a5;
+    h2{
+      color: #ececec;
+    }
+  }
+
+  .parallax-slide2 .parallax-details{
+    background: #141313;
+    color: #a9a9a9;
+    h2{
+      color: #f0f0f1;
+    }
+  }
+
+  .parallax-slide3 .parallax-details{
+    background: #0D0C0C;
+    color: #b9b8b8;
+    h2{
+      color: #f8f8f8;
+    }
+  }
+
+  .parallax-slide4 .parallax-details{
+    background: #df2927;
+    color: #e8e8e8;
+    h2{
+      color: #201f25;
+    }
+  }
+
+  .parallax-slide5 .parallax-details{
+    background: #101010;
+    color: #f0efef;
+    h2{
+      color: #f9f0f0;
+    }
+  }
+
+  .parallax-slide6 .parallax-details{
+    background: #121212;
+    color: #edecec;
+    h2{
+      color: #e3e2e2;
+    }
+  }
+
+}
+
+.parallax-teams{
+  background: #808080;
+
+  .parallax-team{
+    background: #f1f1f1;
+    color: #050505;
+    
+    h2, h3{
+      color: #050505;
+    }
+  }
+
+  .team-designation{
+    color: #585858;
+  }
+
+}
+
+.parallax-service {
+  background: #121211;
+  color: #F7F7F7;
+
+  .service-details {
+    background: #121211;
+    color: #f7f7f7;
+
+    .service-title{
+      color: #f2f2f2;
+    }
+
+    h2{
+      color: #f7f7f7;
+    }
+  }
+
+  &:first-child{
+    background: #fc0000;
+    color: #f2f2f2;
+
+    .service-details {
+      background: #fc0000;
+      color: #f2f2f2;
+      
+      .service-title{
+        color: #f7f7f7;
+      }
+
+      h2{
+        color: #f2f2f2;
+      }
+    }
+  }
+}
+
+.parallax-pricetables{
+  background: #d4d4d4;
+  color: #0f0f0e;
+
+  .pricetable-title{
+    color: #0f0f0e;
+  }
+
+  .parallax-pricetable {
+    background: #f1f1f2;
+  }
+
+  .pricetable-price {
+    color: #ff0000;
+  }
+
+}
+
+.parallax-blocks {
+
+  .parallax-block1 .parallax-block-details {
+    color: #080807;
+    background: #ffff33;
+
+    h2{
+      color: #080807;
+    }
+  }
+
+  .parallax-block2 .parallax-block-details{
+    color: #030302;
+    background: #6993fe;
+
+    h2{
+      color: #030302;
+    }
+  }
+
+  .parallax-block3 .parallax-block-details {
+    color: #0d0d0c;
+    background: #66cc8d;
+
+    h2{
+      color: #0d0d0c;
+    }
+  }
+
+}
+
+.parallax-footer-wrap{
+  color: #141413;
+  background: #f5f5f5;
+  
+  .footer-title{
+    color: #050506;
+  }
+}
+
+.copyright{
+  background: #08080A;
+  color: #999999;
+}
+
+/*Bootstrap*/
+
+.nav-pills>li.active>a, 
+.nav-pills>li.active>a:focus, 
+.nav-pills>li.active>a:hover{
+  background: #024671;
+}
+
+.pagination>.active>a, 
+.pagination>.active>a:focus, 
+.pagination>.active>a:hover, 
+.pagination>.active>span, 
+.pagination>.active>span:focus, 
+.pagination>.active>span:hover,
+.list-group-item.active, 
+.list-group-item.active:focus, 
+.list-group-item.active:hover,
+.panel-primary>.panel-heading{
+  background: #024671;
+  border-color: #024671;
+}
+
+.panel-primary {
+  border-color: #024671;
+}
+
+.primary-menu{
+  background: #0d0d0f;
+}
+
+.main-menu li a{
+  color: #fafafa;
+}
+
+.main-menu li a:hover, 
+.main-menu li a:focus, 
+.main-menu li a:active, 
+.main-menu li a.highlighted{
+  color:#f70000;
+}

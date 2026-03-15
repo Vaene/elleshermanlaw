@@ -1,0 +1,33 @@
+
+/*Variables*/
+
+$fontFamily: 'Merriweather', serif;
+$titleFontFamily: 'Merriweather', serif;
+$baseFontSize: 15px;
+$bodyBGColor: #f9f9f9;
+$baseFontColor: #435a6b;
+
+$linkColor: #f70000;
+$linkColorHover: #d60000;
+$borderColor: #e8e8e8;
+
+/*Mixins*/
+
+@mixin globalButton(){
+	cursor: pointer;
+	color: #fff;
+	border: 0;
+	padding: 12px 30px;
+	line-height: 100%;
+	margin-right: 2px;
+	display: inline-block;
+	border-width: 3px;
+	border-style: solid;
+	border-color: transparent;
+	@include border-radius(30px);
+	@include transition(all 0.3s);
+}
+
+@mixin globalButtonHover(){
+    background: none;
+}

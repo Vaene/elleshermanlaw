@@ -1,0 +1,11 @@
+name: File Upload Secure Validator
+type: module
+description: Secure Mime Detect
+core_version_requirement: "~9.5 || ^10"
+package: Security
+configure: file_upload_secure_validator.file-upload-secure-validator-settings
+
+# Information added by Drupal.org packaging script on 2023-05-29
+version: '2.0.0+1-dev'
+project: 'file_upload_secure_validator'
+datestamp: 1685372772

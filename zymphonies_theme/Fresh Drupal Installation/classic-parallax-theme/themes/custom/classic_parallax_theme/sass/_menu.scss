@@ -1,0 +1,124 @@
+/*Menu*/
+
+.close-btn{
+	border: 2px solid #999;
+	width: 26px;
+	height: 26px;
+	display: inline-block;
+	border-radius: 50%;
+	text-align: center;
+	padding: 0px;
+	color: #999;
+	cursor: pointer;
+}
+
+.toggle-links{
+	button{
+		background: none;
+		border: 0;
+		cursor: pointer;
+
+		&:focus{
+			outline: none;
+		}
+	}
+	.toggle-icons{
+		i{
+			font-size: 2em;
+			color: #000;
+		}
+	}
+}
+
+.close-btn-wrap{
+	text-align: right;
+	margin: 20px;
+}
+
+.search-static{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(37, 37, 37, 0.9);
+	z-index: 999;
+	display: none;
+
+	.region-search{
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+}
+
+nav h2{
+	display: none;
+}
+
+.primary-menu{
+	position: fixed;
+	top: 0;
+	right: -260px;
+	z-index: 999;
+	bottom: 0;
+	width: 260px;
+	display: block;
+	padding: 20px;
+	@include transition(.5s all);
+
+	.close-btn-wrap{
+		margin: 0;
+	}
+}
+
+.main-menu{
+	li{
+		a{
+			padding: 16px 0;
+		}
+	}
+
+	ul{
+		padding-left: 20px;
+
+		a{
+			padding: 8px 0;
+		}
+	}
+
+	.sub-arrow{
+		float: right;
+		font-size: 1.5em;
+		font-weight: bold;
+		line-height: 100%;
+	}
+}
+
+.menu-slide-left{
+	right: 0;
+}
+
+.body-slide-left{
+	right: 260px;
+	position: relative;
+	@include transition(.5s all);
+}
+
+/*Footer Menu*/
+
+.region-footer-menu{	
+
+	ul{
+		margin: 10px 0;
+		padding: 0;
+	}
+	
+	nav li{
+		display: inline-block;
+		a{
+			display: block;
+			padding: 2px 15px 2px 0;
+		}
+	}
+}
