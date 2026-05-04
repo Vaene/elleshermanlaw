@@ -1,0 +1,38 @@
+uuid: ff976843-752b-4edd-a66e-e90b4e7b53e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_default_seo_image
+    - node.type.site_settings
+  module:
+    - image
+id: node.site_settings.field_default_seo_image
+field_name: field_default_seo_image
+entity_type: node
+bundle: site_settings
+label: 'Default SEO Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

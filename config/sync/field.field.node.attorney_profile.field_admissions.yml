@@ -1,0 +1,19 @@
+uuid: d716e5a2-b283-46be-bfab-ec24a0560c1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_admissions
+    - node.type.attorney_profile
+id: node.attorney_profile.field_admissions
+field_name: field_admissions
+entity_type: node
+bundle: attorney_profile
+label: Admissions
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

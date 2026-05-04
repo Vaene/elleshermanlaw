@@ -1,0 +1,11 @@
+uuid: b26ca7f1-351f-48f3-ba55-ba794a284f54
+langcode: en
+status: true
+dependencies: {  }
+name: 'FAQ Item'
+type: faq_item
+description: 'Frequently asked questions tied to practice areas.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

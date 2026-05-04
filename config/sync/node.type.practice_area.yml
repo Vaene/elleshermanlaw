@@ -1,0 +1,11 @@
+uuid: a5dc8f1e-4e47-4da1-aa1c-20e55af751ca
+langcode: en
+status: true
+dependencies: {  }
+name: 'Practice Area'
+type: practice_area
+description: 'Structured practice area content for the headless frontend.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

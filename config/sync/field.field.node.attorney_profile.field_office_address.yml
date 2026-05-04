@@ -1,0 +1,19 @@
+uuid: ee18847e-57e2-4017-8f5b-c3a4f755cb97
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_office_address
+    - node.type.attorney_profile
+id: node.attorney_profile.field_office_address
+field_name: field_office_address
+entity_type: node
+bundle: attorney_profile
+label: 'Office Address'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

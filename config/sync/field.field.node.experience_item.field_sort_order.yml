@@ -1,0 +1,23 @@
+uuid: 13a0bef1-a22e-472f-981a-d1550e45e8b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sort_order
+    - node.type.experience_item
+id: node.experience_item.field_sort_order
+field_name: field_sort_order
+entity_type: node
+bundle: experience_item
+label: 'Sort Order'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

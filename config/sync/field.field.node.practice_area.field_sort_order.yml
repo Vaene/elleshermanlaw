@@ -1,0 +1,23 @@
+uuid: 6d92ddda-6660-46af-a230-adc4d1432c74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sort_order
+    - node.type.practice_area
+id: node.practice_area.field_sort_order
+field_name: field_sort_order
+entity_type: node
+bundle: practice_area
+label: 'Sort Order'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

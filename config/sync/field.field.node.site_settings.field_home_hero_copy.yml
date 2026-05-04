@@ -1,0 +1,19 @@
+uuid: e217a577-0702-47d9-aaf1-ca6adef343cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_home_hero_copy
+    - node.type.site_settings
+id: node.site_settings.field_home_hero_copy
+field_name: field_home_hero_copy
+entity_type: node
+bundle: site_settings
+label: 'Home Hero Copy'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

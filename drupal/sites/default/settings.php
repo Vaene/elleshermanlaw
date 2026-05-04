@@ -827,7 +827,7 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
-$settings['config_sync_directory'] = 'sites/default/files/config_HjPcWjU7ZKEkhEJmOMMYvefNieRGPTYVb9Vv_8nyQ8-f-T5J3NXimcAIwHrQWqD0ZWZAT6uzIQ/sync';
+$settings['config_sync_directory'] = '../config/sync';
 
 if (getenv('IS_DDEV_PROJECT') === 'true' && file_exists($app_root . '/' . $site_path . '/settings.ddev.php')) {
   include $app_root . '/' . $site_path . '/settings.ddev.php';

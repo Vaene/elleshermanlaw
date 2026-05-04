@@ -1,0 +1,19 @@
+uuid: d9c5dc68-9167-4ede-ac4a-a51c3d670bfb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cta_label
+    - node.type.practice_area
+id: node.practice_area.field_cta_label
+field_name: field_cta_label
+entity_type: node
+bundle: practice_area
+label: 'CTA Label'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,22 @@
+uuid: e12e0028-11bb-411a-8ddc-9539c22cf436
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.practice_area
+  module:
+    - text
+id: node.practice_area.field_body
+field_name: field_body
+entity_type: node
+bundle: practice_area
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

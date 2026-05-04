@@ -1,0 +1,24 @@
+uuid: 13e3448f-ee95-4b09-a676-c1104ddab7a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_practice_categories
+    - node.type.practice_area
+    - taxonomy.vocabulary.practice_category
+id: node.practice_area.field_practice_categories
+field_name: field_practice_categories
+entity_type: node
+bundle: practice_area
+label: 'Practice Categories'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      practice_category: practice_category
+field_type: entity_reference

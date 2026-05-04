@@ -1,0 +1,22 @@
+uuid: 593502fe-c5f5-4c60-ac03-b5c6ec12ff4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.experience_item
+  module:
+    - text
+id: node.experience_item.field_body
+field_name: field_body
+entity_type: node
+bundle: experience_item
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

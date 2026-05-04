@@ -1,0 +1,19 @@
+uuid: a258bd20-fa70-4a73-a787-5874d4d34f04
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_admissions
+field_name: field_admissions
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+uuid: ed7ddf96-b629-4a97-9413-12c0821cd3e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_blurb
+    - node.type.site_settings
+id: node.site_settings.field_footer_blurb
+field_name: field_footer_blurb
+entity_type: node
+bundle: site_settings
+label: 'Footer Blurb'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

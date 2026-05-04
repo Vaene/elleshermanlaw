@@ -1,0 +1,24 @@
+uuid: c465be6e-a776-428f-a03d-b1fd530650f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_practice_areas
+    - node.type.faq_item
+    - node.type.practice_area
+id: node.faq_item.field_related_practice_areas
+field_name: field_related_practice_areas
+entity_type: node
+bundle: faq_item
+label: 'Related Practice Areas'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      practice_area: practice_area
+field_type: entity_reference

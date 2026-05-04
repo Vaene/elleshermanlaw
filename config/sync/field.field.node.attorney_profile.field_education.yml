@@ -1,0 +1,19 @@
+uuid: 37a00f85-8815-4670-9c3c-8f855d2d57c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_education
+    - node.type.attorney_profile
+id: node.attorney_profile.field_education
+field_name: field_education
+entity_type: node
+bundle: attorney_profile
+label: Education
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

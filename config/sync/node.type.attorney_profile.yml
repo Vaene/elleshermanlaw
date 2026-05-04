@@ -1,0 +1,11 @@
+uuid: 042f434f-e7cc-49f1-83ff-0d815251dbd2
+langcode: en
+status: true
+dependencies: {  }
+name: 'Attorney Profile'
+type: attorney_profile
+description: 'Attorney biography and office details.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

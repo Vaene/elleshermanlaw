@@ -1,0 +1,21 @@
+uuid: 8da1adda-787f-4b15-954e-a56fc820ce0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_current_role
+    - node.type.experience_item
+id: node.experience_item.field_current_role
+field_name: field_current_role
+entity_type: node
+bundle: experience_item
+label: 'Current Role'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

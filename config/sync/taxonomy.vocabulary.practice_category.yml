@@ -1,0 +1,9 @@
+uuid: 8b816245-72fa-47d2-ab39-59e69808b23a
+langcode: en
+status: true
+dependencies: {  }
+name: 'Practice Category'
+vid: practice_category
+description: null
+weight: 0
+new_revision: false

@@ -1,0 +1,11 @@
+uuid: b750e824-ab71-42c6-823e-c1fc9b81a4cd
+langcode: en
+status: true
+dependencies: {  }
+name: 'Experience Item'
+type: experience_item
+description: 'Timeline entries for the attorney experience page.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

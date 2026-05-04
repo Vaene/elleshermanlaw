@@ -1,0 +1,19 @@
+uuid: ba44326d-4abd-4946-86e4-0dd9604efbcc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_intro
+    - node.type.site_settings
+id: node.site_settings.field_contact_intro
+field_name: field_contact_intro
+entity_type: node
+bundle: site_settings
+label: 'Contact Intro'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

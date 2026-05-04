@@ -1,0 +1,26 @@
+uuid: 6bc77d20-d494-4edd-9ac3-d808c3b5eba2
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - image
+    - node
+id: node.field_portrait
+field_name: field_portrait
+entity_type: node
+type: image
+settings:
+  target_type: file
+  display_field: false
+  display_default: true
+  uri_scheme: public
+  default_image:
+    uuid: null
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

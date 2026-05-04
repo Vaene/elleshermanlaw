@@ -1,0 +1,11 @@
+uuid: b98dce3f-d3c4-40e1-8874-d35a676a4a4b
+langcode: en
+status: true
+dependencies: {  }
+name: 'Basic Page'
+type: basic_page
+description: 'General content pages for the site.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

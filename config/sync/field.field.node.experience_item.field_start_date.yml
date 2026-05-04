@@ -1,0 +1,21 @@
+uuid: 1118c812-9cd1-4111-9443-3ea4e1b6868c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_date
+    - node.type.experience_item
+  module:
+    - datetime
+id: node.experience_item.field_start_date
+field_name: field_start_date
+entity_type: node
+bundle: experience_item
+label: 'Start Date'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,19 @@
+uuid: 66ddd878-9bb2-4be5-9e5a-b8c9fe8c1c70
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_phone
+    - node.type.attorney_profile
+id: node.attorney_profile.field_phone
+field_name: field_phone
+entity_type: node
+bundle: attorney_profile
+label: Phone
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

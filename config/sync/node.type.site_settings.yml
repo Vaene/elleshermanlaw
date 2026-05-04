@@ -1,0 +1,11 @@
+uuid: 30fe4a59-5c9b-4c4b-957e-f5c07e8165be
+langcode: en
+status: true
+dependencies: {  }
+name: 'Site Settings'
+type: site_settings
+description: 'Singleton-style site settings content.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false
